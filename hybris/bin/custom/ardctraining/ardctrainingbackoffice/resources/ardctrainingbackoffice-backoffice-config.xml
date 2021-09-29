@@ -3,7 +3,9 @@
  Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
 -->
 <config xmlns="http://www.hybris.com/cockpit/config"
-	xmlns:na="http://www.hybris.com/cockpitng/config/notifications">
+	xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
+	xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree"
+	xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config">
 
 	<context merge-by="module" component="editorareaactions" type="Consignment">
 		<y:actions xmlns:y="http://www.hybris.com/cockpit/config/hybris">
@@ -14,6 +16,13 @@
 		</y:actions>
     </context>
 
+	<context component="explorer-tree" merge-by="principal">
+		<explorer-tree:explorer-tree>
+			<explorer-tree:navigation-node id="hmc_treenode_catalog">
+				<explorer-tree:type-node id="ardctraining_node_catalog_customproductlabel" code="CustomProductLabel"/>
+			</explorer-tree:navigation-node>
+		</explorer-tree:explorer-tree>
+	</context>
 	<!-- Notification Area-->
 	<context component="notification-area">
 	    <na:notification-area>	        
