@@ -45,6 +45,13 @@ public class DefaultArdctrainingProductFacade extends DefaultProductFacade  impl
         return customProductLabelService;
     }
 
+    public List<CustomProductLabelData> getCustomLabelsByCustomerAndProduct(String customerId, String productCode){
+        final CustomerModel user = getUserService().getUserForUID(customerId,CustomerModel.class);
+        final ProductModel product = getProductService().getProductForCode(productCode);
+
+        return getCustomProductLabelConverter().convertAll(getCustomProductLabelService().findByCustomerAndProduct(user,product));
+    }
+
     public void setCustomProductLabelService(CustomProductLabelService customProductLabelService) {
         this.customProductLabelService = customProductLabelService;
     }

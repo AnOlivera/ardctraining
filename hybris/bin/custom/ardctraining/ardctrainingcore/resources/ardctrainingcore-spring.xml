@@ -554,6 +554,20 @@
 	<alias name="defaultCustomProductLabelService" alias="customProductLabelService"/>
 	<bean id="defaultCustomProductLabelService" class="com.ardctraining.core.product.service.impl.DefaultCustomProductLabelService">
 		<property name="customProductLabelDao" ref="customProductLabelDao"/>
+		<property name="timeService" ref="timeService"/>
+	</bean>
+	<alias name="defaultCustomProductLabelCleanupJobPerformable" alias="customProductLabelCleanupJobPerformable"/>
+	<bean id="defaultCustomProductLabelCleanupJobPerformable"
+		  class="com.ardctraining.core.job.CustomProductLabelCleanupJobPerformable"
+		  parent="abstractJobPerformable">
+		<property name="customProductLabelService" ref="customProductLabelService"/>
+	</bean>
+
+	<alias name="defaultCustomLabelValueProvider" alias="customProductLabelValueProvider"/>
+	<bean name="customProductLabelValueProvider" class="com.ardctraining.core.search.solrfacetsearch.provider.impl.CustomProductLabelValueProvider"
+			parent="abstractPropertyFieldValueProvider">
+		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+		<property name="customProductLabelService" ref="customProductLabelService"/>
 	</bean>
 	<!-- END custom beans -->
 </beans>
