@@ -9,6 +9,8 @@ package com.ardctraining.facades.constants;
 public class ArdctrainingFacadesConstants extends GeneratedArdctrainingFacadesConstants
 {
 	public static final String EXTENSIONNAME = "ardctrainingfacades";
+	public static final String PRODUCT_LABELS_CRONJOB_RECIPIENT = "product.labels.cronjob.recipient.email";
+	public static final String PRODUCT_LABELS_CRONJOB_DISPLAYNAME = "product.labels.cronjob.recipient.displayname";
 
 	private ArdctrainingFacadesConstants()
 	{

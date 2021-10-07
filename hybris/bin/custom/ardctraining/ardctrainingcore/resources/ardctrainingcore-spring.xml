@@ -564,10 +564,27 @@
 	</bean>
 
 	<alias name="defaultCustomLabelValueProvider" alias="customProductLabelValueProvider"/>
-	<bean name="customProductLabelValueProvider" class="com.ardctraining.core.search.solrfacetsearch.provider.impl.CustomProductLabelValueProvider"
+	<bean id="defaultCustomLabelValueProvider" class="com.ardctraining.core.search.solrfacetsearch.provider.impl.CustomProductLabelValueProvider"
 			parent="abstractPropertyFieldValueProvider">
 		<property name="fieldNameProvider" ref="solrFieldNameProvider"/>
 		<property name="customProductLabelService" ref="customProductLabelService"/>
+	</bean>
+
+	<bean id="customLabelCleanupEmailProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+		<property name="resource" value="classpath:/ardctrainingcore/processes/sendCustomLabelCleanupEmailProcess.xml"/>
+	</bean>
+
+	<bean id="generateCustomLabelCleanupEmail" parent="abstractGenerateEmailAction">
+		<property name="frontendTemplateName" value="CustomProductLabelCleanupEmailTemplate"/>
+	</bean>
+
+	<bean depends-on="processContextResolutionStrategyMap" parent="mapMergeDirective">
+		<property name="key">
+			<value type="java.lang.Class">
+				com.ardctraining.core.model.CustomProductLabelCleanupEmailProcessModel
+			</value>
+		</property>
+		<property name="value" ref="storeFrontProcessContextStrategy"/>
 	</bean>
 	<!-- END custom beans -->
 </beans>

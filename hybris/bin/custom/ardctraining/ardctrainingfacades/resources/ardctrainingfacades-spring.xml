@@ -203,5 +203,16 @@
 		<property name="customProductLabelService" ref="customProductLabelService"/>
 		<property name="customProductLabelConverter" ref="customProductLabelConverter"/>
 	</bean>
+
+	<alias name="ardctrainingSearchResultVariantPopulator" alias="commerceSearchResultProductPopulator"/>
+	<bean  id="ardctrainingSearchResultVariantPopulator" class="com.ardctraining.facades.populators.ArdcTrainingSearchResultVariantPopulator"
+		  parent="variantCommerceSearchResultProductPopulator">
+		<property name="userService" ref="userService"/>
+	</bean>
+
+	<bean id="customProductCleanupEmailContext" class="com.ardctraining.facades.process.email.context.CustomProductLabelCleanupEmailContext"
+			parent="abstractEmailContext">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 	<!-- END custom beans -->
 </beans>
