@@ -12,4 +12,6 @@
   		<property name="name" value="labels"/>
   	</bean>
 
+	<bean id="customerFeedBackLabelProvider" class="com.ardctraining.backoffice.labels.CustomerFeedBackLabel"/>
+
 </beans>

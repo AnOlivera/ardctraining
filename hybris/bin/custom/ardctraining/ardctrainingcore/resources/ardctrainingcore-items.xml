@@ -25,12 +25,60 @@
             <value code="WHITE"/>
             <value code="YELLOW"/>
         </enumtype>
+
+        <enumtype code="FeedbackStatusEnum" generate="true" autocreate="true" dynamic="true">
+            <value code="READ"/>
+            <value code="NOT_READ"/>
+            <value code="PASTDUE"/>
+            <value code="READ_PASTDUE"/>
+        </enumtype>
     </enumtypes>
 
     <itemtypes>
 
         <!-- Add your item definitions here -->
-
+        <typegroup name="ardctraining">
+            <itemtype code="CustomerFeedBack" autocreate="true" generate="true"
+                      jaloclass="com.ardctraining.core.jalo.CustomerFeedBack">
+                <deployment table="custfeedback" typecode="10603"/>
+                    <attributes>
+                        <attribute qualifier="subject" type="java.lang.String">
+                            <modifiers read="true" write="true"/>
+                            <persistence type="property"/>
+                        </attribute>
+                        <attribute qualifier="message" type="java.lang.String">
+                            <modifiers read="true" write="true"/>
+                            <persistence type="property"/>
+                        </attribute>
+                        <attribute qualifier="read" type="java.lang.Byte">
+                            <modifiers read="true" write="true"/>
+                            <persistence type="property"/>
+                        </attribute>
+                        <attribute qualifier="submittedDate" type="java.util.Date">
+                            <modifiers read="true" write="true" unique="true"/>
+                            <persistence type="property"/>
+                        </attribute>
+                        <attribute qualifier="customer" type="Customer">
+                            <modifiers read="true" write="true" unique="true"/>
+                            <persistence type="property"/>
+                        </attribute>
+                        <attribute qualifier="status" type="FeedbackStatusEnum">
+                            <modifiers read="true"  write="true"/>
+                            <persistence type="dynamic" attributeHandler="statusAttributeHandler"/>
+                        </attribute>
+                        <attribute qualifier="days" type="java.lang.Integer">
+                            <modifiers read="true" write="true" />
+                            <persistence type="property"/>
+                        </attribute>
+                    </attributes>
+                <indexes>
+                    <index name="pk_datecuststatus" unique="true">
+                        <key attribute="submittedDate"/>
+                        <key attribute="customer"/>
+                    </index>
+                </indexes>
+            </itemtype>
+        </typegroup>
 
         <!-- TypeGroups are for structure of this file only -->
 

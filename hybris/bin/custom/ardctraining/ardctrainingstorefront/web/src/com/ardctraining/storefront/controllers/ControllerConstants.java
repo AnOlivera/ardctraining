@@ -122,7 +122,10 @@ public interface ControllerConstants
 			{
 				String CartPage = "pages/cart/cartPage"; // NOSONAR
 			}
-
+			interface Feedback //NOSONAR
+			{
+				String FeedBackPage = "pages/feedback/feedbackpage";//NOSONAR
+			}
 			interface StoreFinder // NOSONAR
 			{
 				String StoreFinderSearchPage = "pages/storeFinder/storeFinderSearchPage"; // NOSONAR

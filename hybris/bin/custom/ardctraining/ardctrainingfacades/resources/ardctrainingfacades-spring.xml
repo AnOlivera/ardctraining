@@ -182,4 +182,29 @@
 	</bean>
 
 	<bean id="genderData" class="com.ardctraining.facades.product.data.GenderData" scope="prototype"/>
+
+	<!--BEGIN CUSTOM BEANS -->
+
+	<alias name="defaultArdctrainingCustomerFacade" alias="ardctrainingCustomerFacade"/>
+	<bean id="defaultArdctrainingCustomerFacade" class="com.ardctraining.facades.customer.impl.DefaultArdctrainingCustomerFacade"
+			parent="defaultCustomerFacade">
+		<property name="customerFeedBackService" ref="customerFeedBackService"/>
+		<property name="customerFeedBackConverter" ref="customerFeedBackConverter"/>
+
+	</bean>
+
+	<alias name="defaultCustomerFeedBackPopulator" alias="customerFeedBackPopulator"/>
+	<bean id="defaultCustomerFeedBackPopulator" class="com.ardctraining.facades.populators.CustomerFeedBackPopulator"/>
+
+	<alias name="defaultCustomerFeedBackConverter" alias="customerFeedBackConverter"/>
+	<bean id="defaultCustomerFeedBackConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.ardctraining.facades.customer.data.CustomerFeedBackData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerFeedBackPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--END CUSTOM BEANS -->
 </beans>

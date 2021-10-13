@@ -538,4 +538,23 @@
 		<property name="itemCleanupHooks" ref="csTicketRetentionHooks"/>
 		<property name="ticketBusinessService" ref="ticketBusinessService"/>
 	</bean>
+	<!-- BEGIN CUSTOM BEANS -->
+	<alias name="feedbackStatusAttributeHandler" alias="statusAttributeHandler"/>
+	<bean id="feedbackStatusAttributeHandler" class="com.ardctraining.core.attributehandlers.FeedBackStatusAttributeHandler">
+		<property name="timeService" ref="timeService"/>
+	</bean>
+
+	<alias name="defaultCustomerFeedBackDao" alias="customerFeedBackDao"/>
+	<bean id="defaultCustomerFeedBackDao" class="com.ardctraining.core.feedback.dao.impl.DefaultCustomerFeedBackDao">
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+	</bean>
+
+	<alias name="defaultCustomerFeedBackService" alias="customerFeedBackService"/>
+	<bean id="defaultCustomerFeedBackService" class="com.ardctraining.core.feedback.service.impl.DefaultCustomerFeedBackService">
+		<property name="customerFeedBackDao" ref="customerFeedBackDao"/>
+		<property name="timeService" ref="timeService"/>
+		<property name="modelService" ref="modelService"/>
+
+	</bean>
+	<!-- END CUSTOM BEANS -->
 </beans>
