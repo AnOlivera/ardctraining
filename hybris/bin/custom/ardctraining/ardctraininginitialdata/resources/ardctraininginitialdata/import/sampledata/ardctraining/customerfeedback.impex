@@ -1,0 +1,2 @@
+INSERT_UPDATE CustomerFeedBack; customer(uid)[unique=true];subject;message;read;submittedDate[dateformat=yyyy.MM.dd][unique=true];days;status(code)
+                              ;anolivera@externosdeloittemx.com;Hola;Prueba;0;2021.08.07;7;NOT_READ
