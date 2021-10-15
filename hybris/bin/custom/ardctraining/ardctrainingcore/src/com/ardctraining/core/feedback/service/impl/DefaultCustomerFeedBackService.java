@@ -59,7 +59,9 @@ public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
         feedBack.setSubmittedDate(now);
         modelService.save(feedBack);
 
-        final Set<String> feedbacks = getCustomerFeedBack(Collections.singletonList(feedBack));
+
+
+        final Set<String> feedbacks = getCustomerFeedBack(getCustomerFeedBackDao().findByCustomerAndNegativeStatus(customer));
         final DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss.S");
         final Date nowMail = getTimeService().getCurrentTime();
         final CustomerFeedBackEmailProcessModel process = getBusinessProcessService().createProcess(
@@ -82,7 +84,7 @@ public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
                 .stream()
                 .map((CustomerFeedBackModel feed) ->
                     new StringBuilder()
-                            .append(Objects.isNull(feed.getCustomer()) ? StringUtils.EMPTY : feed.getCustomer().getUid())
+                            .append(feed.getCustomer().getUid())
                             .append("|")
                             .append(feed.getSubject())
                             .append("|")

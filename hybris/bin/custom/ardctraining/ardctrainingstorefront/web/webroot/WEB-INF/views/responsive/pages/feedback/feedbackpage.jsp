@@ -21,21 +21,23 @@
         </form:form>
         <br>
         <div>
-            <c:forEach items="${feedback}" var="feedback" varStatus="loop">
+
             <table class="table table-stripped">
                 <thead>
                     <th scope="col">SUBJECT</th>
                     <th scope="col">DATE</th>
                     <th scope="col">status</th>
                 </thead>
+                <c:forEach items="${feedback}" var="feedback" varStatus="loop">
                 <tbody>
                     <td>${feedback.getSubject()}</td>
 
                     <td>${feedback.getSubmittedDate()}</td>
                     <td>${feedback.getStatus().getCode()}</td>
                 </tbody>
+                 </c:forEach>
             </table>
-            </c:forEach>
+
         </div>
 
 </template:page>
