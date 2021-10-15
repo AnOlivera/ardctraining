@@ -206,5 +206,9 @@
 		</property>
 	</bean>
 
+	<bean id="customerFeedBackEmailContext" class="com.ardctraining.facades.process.email.context.CustomerFeedBackEmailContext"
+			parent="abstractEmailContext">
+		<property name="configurationService" ref="configurationService"/>
+	</bean>
 	<!--END CUSTOM BEANS -->
 </beans>

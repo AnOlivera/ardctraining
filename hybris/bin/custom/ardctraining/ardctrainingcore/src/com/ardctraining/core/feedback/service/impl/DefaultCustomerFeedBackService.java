@@ -4,21 +4,32 @@ package com.ardctraining.core.feedback.service.impl;
 import com.ardctraining.core.attributehandlers.FeedBackStatusAttributeHandler;
 import com.ardctraining.core.feedback.dao.CustomerFeedBackDao;
 import com.ardctraining.core.feedback.service.CustomerFeedBackService;
+import com.ardctraining.core.model.CustomerFeedBackEmailProcessModel;
 import com.ardctraining.core.model.CustomerFeedBackModel;
+import de.hybris.platform.commerceservices.i18n.CommerceCommonI18NService;
 import de.hybris.platform.core.model.user.CustomerModel;
+import de.hybris.platform.processengine.BusinessProcessService;
 import de.hybris.platform.servicelayer.model.ModelService;
 import de.hybris.platform.servicelayer.time.TimeService;
 import de.hybris.platform.servicelayer.util.ServicesUtil;
+import de.hybris.platform.site.BaseSiteService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
 
     private CustomerFeedBackDao customerFeedBackDao;
     private  TimeService timeService;
+    private BusinessProcessService businessProcessService;
+    private BaseSiteService baseSiteService;
+    private CommerceCommonI18NService commerceCommonI18NService;
+    private ModelService modelService;
+
 
     public ModelService getModelService() {
         return modelService;
@@ -28,7 +39,7 @@ public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
         this.modelService = modelService;
     }
 
-    private ModelService modelService;
+
 
 
     @Override
@@ -47,6 +58,39 @@ public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
         feedBack.setCustomer(customer);
         feedBack.setSubmittedDate(now);
         modelService.save(feedBack);
+
+        final Set<String> feedbacks = getCustomerFeedBack(Collections.singletonList(feedBack));
+        final DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss.S");
+        final Date nowMail = getTimeService().getCurrentTime();
+        final CustomerFeedBackEmailProcessModel process = getBusinessProcessService().createProcess(
+                new StringBuilder()
+                .append("customerFeedBackEmailProcess")
+                .append("-")
+                .append(dateFormat.format(nowMail))
+                        .toString(),"customerFeedBackEmailProcess");
+        process.setLanguage(getCommerceCommonI18NService().getCurrentLanguage());
+        process.setCustomerFeedBacks(feedbacks);
+        process.setSite(getBaseSiteService().getBaseSiteForUID("electronics"));
+
+        modelService.save(process);
+
+        getBusinessProcessService().startProcess(process);
+    }
+
+    private Set<String> getCustomerFeedBack(final List<CustomerFeedBackModel> feedback){
+        return feedback
+                .stream()
+                .map((CustomerFeedBackModel feed) ->
+                    new StringBuilder()
+                            .append(Objects.isNull(feed.getCustomer()) ? StringUtils.EMPTY : feed.getCustomer().getUid())
+                            .append("|")
+                            .append(feed.getSubject())
+                            .append("|")
+                            .append(feed.getMessage())
+                            .append("|")
+                            .append(feed.getSubmittedDate())
+                            .toString()
+                ).collect(Collectors.toSet());
     }
 
     public CustomerFeedBackDao getCustomerFeedBackDao() {
@@ -65,4 +109,27 @@ public class DefaultCustomerFeedBackService implements CustomerFeedBackService {
         this.timeService = timeService;
     }
 
+    public BusinessProcessService getBusinessProcessService() {
+        return businessProcessService;
+    }
+
+    public void setBusinessProcessService(BusinessProcessService businessProcessService) {
+        this.businessProcessService = businessProcessService;
+    }
+
+    public BaseSiteService getBaseSiteService() {
+        return baseSiteService;
+    }
+
+    public void setBaseSiteService(BaseSiteService baseSiteService) {
+        this.baseSiteService = baseSiteService;
+    }
+
+    public CommerceCommonI18NService getCommerceCommonI18NService() {
+        return commerceCommonI18NService;
+    }
+
+    public void setCommerceCommonI18NService(CommerceCommonI18NService commerceCommonI18NService) {
+        this.commerceCommonI18NService = commerceCommonI18NService;
+    }
 }
